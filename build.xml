@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2005 Markus KARG (markus-karg@users.sourceforge.net)
+
+	This file is part of FileResourceAdapter.
+
+	FileResourceAdapter is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	FileResourceAdapter is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with FileResourceAdapter; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<!--
+	Users should not change this file, but instead customize the file
+	"build.properties" to adjust the build process to their local needs.
+	
+	The "build.properties file should look like this:
+	
+	# Set to "true" when you want to include debugging information in binaries
+	compiler.debug false
+
+	# Set to "false" when you don't want to use optimizing compilation
+	compiler.optimize true
+
+	# Customize to fit your local directory structure
+	lib.jca /home/markus/lib/jca/connector-api.jar
+-->
+
+<project name="filera" default="all" basedir=".">
+
+	<!-- Reads all user- or machine-dependent properties out of a local properties file. -->
+	<property file="build.properties" />
+
+	<!-- This source code is written in the Java 1.4 language version. -->
+	<property name="compiler.source" value="1.4" />
+
+	<!-- This resource adapter has to work in J2EE 1.4 environments and such must be able to run on a Java 1.4 VM. -->
+	<property name="compiler.target" value="1.4" />
+
+	<!-- Builds the linked name from the project name -->
+	<property name="linker.output" value="${ant.project.name}.jar" />
+
+	<!-- Builds the packaged name from the project name -->
+	<property name="packager.output" value="${ant.project.name}.rar" />
+
+	<!-- Build the general classpath used e. g. for compilation -->
+	<property name="classpath" value="${lib.jca}" />
+
+	<!-- Reflects the project's directory structure -->
+	<property name="dir.src" value="src" />
+	<property name="dir.build" value="build" />
+	<property name="dir.dist" value="dist" />
+
+	<target name="clean" description="Cleans dist and build directories.">
+		<delete dir="${dir.build}" />
+		<delete dir="${dir.dist}" />
+	</target>
+
+	<target name="rebuild" description="Cleans and builds." depends="clean,build" />
+
+	<target name="build" description="Compiles and links." depends="compile,link" />
+
+	<!-- Compiles sources to binaries; creates linker input; runs if needed. -->
+	<target name="compile">
+		<mkdir dir="${dir.build}" />
+		<javac srcdir="${dir.src}" destdir="${dir.build}" classpath="${classpath}" debug="${compiler.debug}" optimize="${compiler.optimize}" source="${compiler.source}" target="${compiler.target}" />
+	</target>
+
+	<!-- Links together all compiler output plus resources; runs if needed. -->
+	<target name="link">
+		<mkdir dir="${dir.dist}" />
+		<jar jarfile="${dir.dist}/${linker.output}" basedir="${dir.build}" />
+	</target>
+
+	<!-- Creates installation package; runs if needed. -->
+	<target name="package" description="Creates a package.">
+		<mkdir dir="${dir.build}/META-INF" />
+		<jar jarfile="${dir.dist}/${packager.output}" basedir="${dir.dist}" excludes="${packager.output}">
+			<metainf dir="META-INF" />
+		</jar>
+	</target>
+
+	<target name="all" description="Creates a ready-to-use, packaged module from scratch." depends="build,package" />
+
+</project>

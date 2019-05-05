@@ -1,0 +1,40 @@
+
+	Copyright (C) 2005 Markus KARG (markus-karg@users.sourceforge.net)
+
+	This file is part of FileResourceAdapter.
+
+	FileResourceAdapter is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	FileResourceAdapter is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+ 
+ 	You should have received a copy of the GNU General Public License
+	along with FileResourceAdapter; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+	
+	TO DO
+	
+		The following tasks need to be done:
+		
+		* Implement String createDirectory(String pathName).
+		* Implement usage of background tasks (provide job to server).
+		* Implement listening to file events with asynchronous message inflow.
+		* Add the possibility to configure the RA.
+		* Write chapter on configuration in the README.
+		* Add JUnit tests... (we need a file system mock to solve this, and a JCA driver).
+		* Remove vendor-specifics (jonas-ra.xml).
+		* Prefix for temporary files should be configurable by administrator.
+		* Location for temporary files should be configurable by administrator.
+		* Add logging to let administrator have a log what the RA did.
+		* Add some buffering strategy but keep in mind transactions...! (e. g. BufferedOutputStream with configurable size / needs to flush)
+		* Add the possibility to move and copy complete trees.
+		* Add configuration property to let admin decide where to resolve relative paths.
+		* Implement lazy reassociation of connection handles to support connection sharing.
+		

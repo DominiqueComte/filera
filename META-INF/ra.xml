@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2005 Markus KARG (markus-karg@users.sourceforge.net)
+
+	This file is part of FileResourceAdapter.
+
+	FileResourceAdapter is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	FileResourceAdapter is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with FileResourceAdapter; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_5.xsd" version="1.5">
+	<vendor-name>filera.sourceforge.net</vendor-name>
+	<eis-type>Local File System</eis-type>
+	<resourceadapter-version>0.0.7</resourceadapter-version>
+	<resourceadapter>
+		<resourceadapter-class>net.sourceforge.filera.spi.FileResourceAdapter</resourceadapter-class>
+		<outbound-resourceadapter>
+			<connection-definition>
+				<managedconnectionfactory-class>net.sourceforge.filera.spi.outbound.FileResourceAdapterManagedConnectionFactory</managedconnectionfactory-class>
+				<connectionfactory-interface>net.sourceforge.filera.api.FileResourceAdapterConnectionFactory</connectionfactory-interface>
+				<connectionfactory-impl-class>net.sourceforge.filera.api.DefaultFileResourceAdapterConnectionFactory</connectionfactory-impl-class>
+				<connection-interface>net.sourceforge.filera.api.FileResourceAdapterConnection</connection-interface>
+				<connection-impl-class>net.sourceforge.filera.api.DefaultFileResourceAdapterConnection</connection-impl-class>
+			</connection-definition>
+			<transaction-support>NoTransaction</transaction-support>
+			<reauthentication-support>false</reauthentication-support>
+		</outbound-resourceadapter>
+	</resourceadapter>
+</connector>

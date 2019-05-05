@@ -1,0 +1,179 @@
+
+	Copyright (C) 2005 Markus KARG (markus-karg@users.sourceforge.net)
+
+	This file is part of FileResourceAdapter.
+
+	FileResourceAdapter is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	FileResourceAdapter is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+ 
+ 	You should have received a copy of the GNU General Public License
+	along with FileResourceAdapter; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+	
+	ABSTRACT
+	
+		The FileResourceAdapter is a resource adapter (following the rules
+		of JCA and J2EE) that allows accessing a local file system. Since EJBs (and
+		other J2EE components) may, by definition, not access a file system
+		directly, this resource adapter is needed to solve this problem.
+
+		
+	LICENCE
+	
+		This software is published by the terms of the GNU General Public Licence
+		(aka GPL). You can find the complete licencing conditions in the file
+		LICENCE, or on http://www.gnu.org.
+
+		
+	WARRANTY
+	
+		This software is published as is, without any warranty.
+
+		
+	HELP
+	
+		At the moment there is no place to look for help. Just help yourself. ;-)
+		Please do not write to the author(s) or contributor(s).
+
+		
+	AUTHOR(S) and CONTRIBUTOR(S)
+	
+		The following people helped in this project, either by coding, or
+		by some other useful help:
+	
+		Markus KARG (markus-karg@users.sourceforge.net)
+		Hans PRÜLLER (hanzz@users.sourceforge.net)
+
+
+	BUILDING
+	
+		To build the resource adapter from the sources, you need to have
+		the following installed on your machine:
+		
+		* ANT, since the build scripts are ANT scripts.
+		   Check www.apache.org for that.
+		* JCA API, since a resource adapter is basing on that.
+		   Check www.javasoft.org for that.
+		   Once installed, you need to put the path to that library (*.jar)
+		   into the build.properties file, so the ANT tool can find the library.
+		   
+		To build the code, a file named build.properties should be create according
+		to the rules provided in build.xml.
+
+		Once ready with this, just let ANT process the build script. The resulting,
+		ready-to-use binary module (the resource adapter .rar file) can be found
+		in the dist directory.
+		
+
+	CONFIGURATION
+	
+		To be written... Actually there is no configuration to be done yet.
+		
+		
+	DEPLOYMENT
+	
+		There are no FileRA-specific deployment stept.
+		Please consult your application server's manual for deployment issues.
+		
+		
+	STANDARDS COMPLIANCE
+	
+		We did our best to ensure compatibility with the following standards:
+		
+		* JCA 1.5
+		* J2EE 1.4
+		
+		Since we have not yet passed the CTS (official compliance tests by Sun),
+		and since we are not yet a legal JCA or J2EE licencee, we have to indicate
+		explicitely that the file resource adapter is currently neither JCA nor J2EE
+		compliant officially.
+		
+		The use of the names "JCA" and "J2EE" is not for marketing reasons or to
+		state any not actually given compliance, but only to indicate the names of
+		the standards that we used as a guiding directive at development time.
+		
+		Nevertheless, we are very confident that the file resource adapter actually is
+		at most compatible with the enlisted standards and will work with any
+		application server that itself is compliant with the J2EE 1.4 standard.
+		
+		
+	TRADEMARKS
+	
+		Any trademarks found here are used with respect to the rights of its
+		owners. "Java", "JCA", and "J2EE" are, or are assumed to be, legal trademarks
+		of	Sun Microsystems.
+		
+		
+	FEATURES
+	
+		Transaction Management
+		
+			Neither local transactions nor XA transactions are supported yet,
+			due to the local file system in most cases is not transaction aware,
+			and/or the internally used java.io.File API is not supporting transacted
+			file access.
+			
+			There is no guarantee that any of the file operations provided by this
+			resource adapter are performed under "ACID" conditions. This means,
+			any of the file operations can fail and leave the file system in an
+			intermediate state. Since most of the file operations actually are
+			translated to atomic OS API calls, this shouldn't be a big problem at all.
+			
+			There are no plans yet to change this in a future release.
+			
+		Security
+		
+			No security features are supported yet due to the local file system
+			often is not supporting security and/or the internally used java.io.File
+			API is not supporting authenticated file access.
+			
+			All operations are executed with local access rights of that OS user
+			that is running the calling application. For EJBs this is the user that
+			runs the EJB container. For clients this is the user that runs the client.
+			For JSPs this is the user running the JSP container.
+			
+			There are no plans yet to change this in a future release.
+	
+		Absolute Paths
+		
+			At the moment, the file resource adapter allows to use both, relative
+			and absolute path names. This is a security leak since it allows random
+			access to any location in the local file system.
+			
+			To improve security, it is planned to restrict file access to relative paths
+			only, while the administrator may set the root against all relative paths
+			will be evaluated.
+			
+		Connection Sharing
+		
+			The work for sharing connection in oart done actually, but
+			since this feature is only working in conjunction with transaction
+			management, it has to be assumed to be not working yet.
+			
+			Since transaction management is not planned yet, there are no plans
+			to finish support of this feature in a future release, too.
+			
+		Lazy Reconnection
+		
+			The file resource adapter doesn't support lazy reassociation of
+			connection handles yet. We know that this is needed as long as
+			connection sharing is supported.
+			
+			This feature is not planned for future releases.
+			
+		Re-Authentication
+		
+			As long as no security features are implemented at all, re-authentication
+			is also not supported.
+			
+			This feature is not planned for future releases.
+	
